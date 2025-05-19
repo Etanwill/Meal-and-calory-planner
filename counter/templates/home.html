@@ -172,10 +172,33 @@
                   }
                 });
               </script>
-    <div><a href="{% url 'recomendation' %}" class="btn_r" style="padding: 10px 20px; 
-    background-color: #4CAF50; color: white; margin-bottom: 40px;
-    border: none; text-decoration: none; border-radius: 5px;">Personalize Recommendations</a>
-    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+  <a href="{% url 'recomendation' %}" class="btn_r"
+     style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; text-decoration: none; border-radius: 5px;">
+    Personalize Recommendations
+  </a>
+
+  <button id="launch-streamlit-btn"
+     style="padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px;">
+    Get AI Assistance
+  </button>
+</div>
+
+<p id="status-msg" style="display:none;">Streamlit is launching...</p>
+
+    <script>
+document.getElementById("launch-streamlit-btn").addEventListener("click", function() {
+    fetch("{% url 'launch_streamlit' %}")
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "ok") {
+                document.getElementById("status-msg").style.display = "block";
+            }
+        });
+});
+</script>
+
+
 </body>
 
 </html>

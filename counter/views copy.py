@@ -1,44 +1,28 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import UserRecommendation
 import requests
 from .recommendation_profiles import PERSONALIZED_RECOMMENDATIONS
-import subprocess
-from django.http import HttpResponse
-from django.views import View
-
 
 # Fonction de génération de recommandations personnalisées
 
 
 def generate_manual_recommendation(data):
-    best_score = 0
-    best_match = None
-
     for profile in PERSONALIZED_RECOMMENDATIONS:
-        score = 0
-        conditions = profile["conditions"]
+        match = True
+        for key, value in profile["conditions"].items():
+            if key in data and value.lower() not in data[key].lower():
+                match = False
+                break
+        if match:
+            return {
+                "diet_types": profile["diet_types"],
+                "workouts": profile["workouts"],
+                "breakfasts": profile["breakfasts"],
+                "dinners": profile["dinners"],
+                "additional_tips": profile["additional_tips"]
+            }
 
-        for key, value in conditions.items():
-            if key in data:
-                if value.lower() == data[key].lower():
-                    score += 2  # exact match
-                elif value.lower() in data[key].lower() or data[key].lower() in value.lower():
-                    score += 1  # partial match
-
-        if score > best_score:
-            best_score = score
-            best_match = profile
-
-    if best_match:
-        return {
-            "diet_types": best_match["diet_types"],
-            "workouts": best_match["workouts"],
-            "breakfasts": best_match["breakfasts"],
-            "dinners": best_match["dinners"],
-            "additional_tips": best_match["additional_tips"]
-        }
-
-    # Default suggestion if no match found
+    # Si aucun profil ne correspond, suggestions par défaut
     return {
         "diet_types": ["Balanced diet", "Whole food based", "Low sugar", "Low sodium", "Anti-inflammatory"],
         "workouts": ["Walking", "Yoga", "Light strength", "Pilates", "Stretching"],
@@ -112,18 +96,3 @@ def recomendation(request):
         return render(request, 'recomendation.html', {'recommendations': recommendations})
 
     return render(request, 'recomendation.html', {'recommendations': None})
-
-
-class LaunchStreamlitView(View):
-    def get(self, request):
-        bot_folder = r"C:\Users\12ELEVEN\Desktop\etan-website\bot"
-        venv_activate = rf"{bot_folder}\botvenv\Scripts\activate.bat"
-        streamlit_path = rf"{bot_folder}\app.py"
-
-        # Use bash to activate venv and launch Streamlit
-        command = f'cmd /k "{venv_activate} && streamlit run {streamlit_path}"'
-
-        # Run in a separate terminal or background process
-        subprocess.Popen(command, cwd=bot_folder, shell=True)
-
-        return JsonResponse({"status": "ok"})
