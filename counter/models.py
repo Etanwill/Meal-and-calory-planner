@@ -1,4 +1,6 @@
 from django.db import models
+from django import forms
+
 
 class UserRecommendation(models.Model):
     dietary_preferences = models.CharField(max_length=255)
@@ -11,3 +13,6 @@ class UserRecommendation(models.Model):
 
     def __str__(self):
         return f"{self.dietary_preferences} - {self.fitness_goal}"
+
+class FoodQueryForm(forms.Form):
+    food_name = forms.CharField(label="Enter a Cameroonian food", max_length=100)

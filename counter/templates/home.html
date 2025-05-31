@@ -14,7 +14,6 @@
 
 <body>
     <div class="container">
-
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
                 <img src="{% static 'images/logo.png' %}" class=" img-responsive logo mb-5 mt-5" />
@@ -63,7 +62,7 @@
                                 <li>Total Fat: <span class="float-end">{{api.0.fat_total_g}}</span></li>
                                 <li>Fiber Content: <span class="float-end">{{api.0.fiber_g}}</span></li>
                                 <li>Potassium <span class="float-end">{{api.0.potassium_mg}}</span></li>
-                                <li>Protein: <span class="float-end">{{api.0.protein_g}}<span></li>
+                                <li>Protein: <span class="float-end">112<span></li>
                                 <li>Sodium:<span class="float-end">{{api.0.sodium_mg}}</span></li>
                                 <li>Sugar: <span class="float-end">{{api.0.sugar_g}}</span></li>
                             </ul>
@@ -172,31 +171,195 @@
                   }
                 });
               </script>
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-  <a href="{% url 'recomendation' %}" class="btn_r"
-     style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; text-decoration: none; border-radius: 5px;">
-    Personalize Recommendations
-  </a>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin: 40px 0;">
+    <a href="{% url 'recomendation' %}"
+       style="padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">
+        Personalize Recommendations
+    </a>
 
-  <button id="launch-streamlit-btn"
-     style="padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px;">
-    Get AI Assistance
-  </button>
+<!-- Floating Chat Button -->
+<button id="chatbtn">💬 Chat with AI</button>
+
+<!-- Chat Box -->
+<div id="chatbox" style="display: none;">
+  <div id="chatheader">💬 AI Power Assistance
+    <button id="closebtn" title="Close chat">×</button>
+  </div>
+  <div id="chatlog"></div>
+  <input id="chatinput" placeholder="Type your message..." />
 </div>
 
-<p id="status-msg" style="display:none;">Streamlit is launching...</p>
+<style>
+    #closebtn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  float: right;
+  line-height: 1;
+  padding: 0 10px;
+  user-select: none;
+}
 
-    <script>
-document.getElementById("launch-streamlit-btn").addEventListener("click", function() {
-    fetch("{% url 'launch_streamlit' %}")
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "ok") {
-                document.getElementById("status-msg").style.display = "block";
-            }
-        });
+#closebtn:hover {
+  color: #ccc;
+}
+
+  #chatbtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 9999;
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  #chatbox {
+    position: fixed;
+    bottom: 80px;
+    right: 0;
+    width: 50vw;
+    max-height: 80vh;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.3);
+    z-index: 9998;
+    overflow: hidden;
+  }
+
+  #chatheader {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 15px 20px;
+    border-radius: 15px 15px 0 0;
+    user-select: none;
+  }
+
+  #chatlog {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .message {
+    max-width: 75%;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  .user-message {
+    align-self: flex-end;
+    background-color: #007bff;
+    color: white;
+    border-bottom-right-radius: 0;
+    text-align: right;
+  }
+
+  .ai-message {
+    align-self: flex-start;
+    background-color: #f1f0f0;
+    color: #333;
+    border-bottom-left-radius: 0;
+    text-align: left;
+  }
+
+  #chatinput {
+    width: calc(100% - 30px);
+    margin: 10px 15px 15px 15px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  #chatinput:focus {
+    border-color: #007bff;
+  }
+</style>
+
+<script>
+  const chatBtn = document.getElementById('chatbtn');
+  const chatbox = document.getElementById('chatbox');
+  const chatlog = document.getElementById('chatlog');
+  const chatinput = document.getElementById('chatinput');
+  const closeBtn = document.getElementById('closebtn');
+
+  // Toggle chat box
+  chatBtn.addEventListener('click', () => {
+    chatbox.style.display = chatbox.style.display === 'flex' ? 'none' : 'flex';
+    if (chatbox.style.display === 'flex') {
+      chatinput.focus();
+    }
+  });
+
+  closeBtn.addEventListener('click', () => {
+  chatbox.style.display = 'none';
 });
+
+  // Replace **bold** with <strong>
+  function parseBold(text) {
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  }
+
+  // Add message to chat
+  function addMessage(text, sender) {
+    const div = document.createElement('div');
+    div.classList.add('message');
+    div.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+    div.innerHTML = parseBold(text);
+    chatlog.appendChild(div);
+    chatlog.scrollTop = chatlog.scrollHeight;
+  }
+
+  // Send message to backend
+  chatinput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter' && chatinput.value.trim() !== '') {
+      const message = chatinput.value.trim();
+      addMessage(message, 'user');
+      chatinput.value = '';
+
+      fetch('/chatbot/chat/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.reply) {
+          addMessage(data.reply, 'ai');
+        } else if (data.error) {
+          addMessage("❗ Error: " + data.error, 'ai');
+        }
+      })
+      .catch(() => {
+        addMessage("❗ Could not reach server.", 'ai');
+      });
+    }
+  });
 </script>
+
 
 
 </body>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cameroonian Food Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0fff0;
+            color: #2e7d32;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #1b5e20;
+            text-align: center;
+        }
+
+        form {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border: 2px solid #a5d6a7;
+            border-radius: 10px;
+            width: 50%;
+            margin: 0 auto 30px;
+        }
+
+        button {
+            background-color: #66bb6a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #388e3c;
+        }
+
+        h3 {
+            color: #2e7d32;
+            text-align: center;
+        }
+
+        .response-box {
+            background-color: #f1f8e9;
+            padding: 15px;
+            border-radius: 8px;
+            width: 50%;
+            margin: 10px auto 30px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 400px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Cameroonian Food Assistant</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Get Info</button>
+    </form>
+
+    {% if answer_ingredients %}
+        <h3>Ingredients:</h3>
+        <div class="response-box">
+            {{ answer_ingredients|safe }}
+        </div>
+    {% endif %}
+
+    {% if answer_directions %}
+        <h3>Cooking Directions:</h3>
+        <div class="response-box">
+            {{ answer_directions|safe }}
+        </div>
+    {% endif %}
+</body>
+</html>

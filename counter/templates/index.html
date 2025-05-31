@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with AI</title>
+    <style>
+        #chatbox {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 300px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            display: none;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        #chatlog {
+            height: 200px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+        #chatinput {
+            width: 100%;
+            padding: 5px;
+        }
+        #chatbtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<button id="chatbtn">Chat with AI</button>
+
+<div id="chatbox">
+    <div id="chatlog"></div>
+    <input id="chatinput" placeholder="Ask something..." />
+</div>
+
+<script>
+    const chatbox = document.getElementById('chatbox');
+    const chatlog = document.getElementById('chatlog');
+    const input = document.getElementById('chatinput');
+    const button = document.getElementById('chatbtn');
+
+    button.onclick = () => {
+        chatbox.style.display = chatbox.style.display === 'none' ? 'block' : 'none';
+    };
+
+    input.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter') {
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            chatlog.innerHTML += `<div><strong>You:</strong> ${msg}</div>`;
+            input.value = '';
+
+            const res = await fetch("/chatbot/chat/", {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: msg })
+            });
+
+            const data = await res.json();
+            chatlog.innerHTML += `<div><strong>AI:</strong> ${data.reply || data.error}</div>`;
+            chatlog.scrollTop = chatlog.scrollHeight;
+        }
+    });
+</script>
+
+</body>
+</html>

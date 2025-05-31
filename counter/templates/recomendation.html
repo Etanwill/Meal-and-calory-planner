@@ -116,16 +116,21 @@
             <input type="text" name="lifestyle_factor" placeholder="e.g Active, Sedentary" required>
 
             <label>Dietary Restrictions</label>
-            <input type="text" name="dietary_restrictions" placeholder="e.g Lactose, Gluten-free" required>
+            <input type="text" name="dietary_restrictions" placeholder="e.g Lactose, Gluten-free">
 
             <label>Health Condition</label>
-            <input type="text" name="health_condition" placeholder="e.g Diabetes, High blood pressure" required>
+            <input type="text" name="health_condition" placeholder="e.g Diabetes, High blood pressure">
 
             <label>Your Query</label>
-            <input type="text" name="your_query" placeholder="Describe your goals briefly" required>
+            <input type="text" name="your_query" placeholder="Describe your goals briefly">
 
             <button type="submit">Get Recommendations</button>
         </form>
+        <div><p>Do not know how to cook a Cameroonian Meal?, Refer to our Recipe System for Guidance 👇👇</p>
+                <a href="{% url 'cameroon_recipe' %}">
+                <button>Ask Cameroon Food Assistant</button>
+                </a>
+            </div>
 
         {% if recommendations %}
         <h2>Recommendations</h2>
