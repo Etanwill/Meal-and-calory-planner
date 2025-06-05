@@ -173,7 +173,7 @@
                 });
               </script>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-  <a href="{% url 'recomendation' %}" class="btn_r"
+  <a href="{% url 'recommendation' %}" class="btn_r"
      style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; text-decoration: none; border-radius: 5px;">
     Personalize Recommendations
   </a>
@@ -182,6 +182,12 @@
      style="padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px;">
     Get AI Assistance
   </button>
+
+   <a href="{% url 'logout' %}" 
+   style="display: inline-block; padding: 12px 24px; background-color: #f44336; color: white; border: none; border-radius: 8px; text-decoration: none; font-size: 16px; text-align: center;">
+   Logout
+</a>
+
 </div>
 
 <p id="status-msg" style="display:none;">Streamlit is launching...</p>

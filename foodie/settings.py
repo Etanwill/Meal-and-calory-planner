@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'counter',
+    'rest_framework',
     'mathfilters',
 ]
 
@@ -117,7 +118,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'foodie/static/')]
 
@@ -125,3 +126,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'foodie/static/')]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Nutritionix API Keys
+NUTRITIONIX_APP_ID = "f20c2372"
+NUTRITIONIX_APP_KEY = "853271f146cb44f2e118a6a9d2b4f00e"
+
