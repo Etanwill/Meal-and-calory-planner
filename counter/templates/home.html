@@ -13,6 +13,12 @@
 </head>
 
 <body>
+    {% if error %}
+  <div style="color: red; margin: 10px 0;">
+    {{ error }}
+  </div>
+{% endif %}
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
@@ -31,16 +37,16 @@
                 {% else %} <!-- if nit do not it run this-->
                 <h1> {{api.0.name | capfirst}} has a total of <strong> {{ total|floatformat:1 }}</strong> calories</h1>
                               <!-- add all the calories-->
-                   Calories</strong>
-                    {% if total > 200 %}<img src="{% static 'images/shocked.png'%}" class="img-responsive" />{%endif%}
+                   </strong>
+                    {% if total >= 200 %}<img src="{% static 'images/shocked.png'%}" class="img-responsive" />{%endif%}
                 </h1>
-                {%if api.0.sodium_mg > 1000%} 
+                {%if sodium >= 1000 %} 
                 <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
                     <div>
                         This food contains an high amount of sodium. High Sodium cuases Sever dehydration and water
                         retention.
                     </div> {%endif%}
-                    {%if api.0.sugar_g > 100%}
+                    {%if sugar >= 100 %}
                     <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
                         <div>
                             This food contains an high amount of sugar. Sugar causes insulin spikes and is no.1 cause of obsity.
@@ -55,16 +61,16 @@
                             <h2 class="mt-3 mb-4">Nutritional Values </h2><span></span>
                             <ul>
                                 <li class="servingsize">Serving Size per 100/Grams <span class="float-end">
-                                <li>Carbohydrates: <span class="float-end"> {{api.0.carbohydrates_total_g}} </span>
+                                <li>Carbohydrates: <span class="float-end"> {{carbs}} </span>
                                 </li>
-                                <li>Cholesterol: <span class="float-end"> {{api.0.cholesterol_mg}} </span></li>
-                                <li>Saturated fat: <span class="float-end">{{api.0.fat_saturated_g}}</span></li>
-                                <li>Total Fat: <span class="float-end">{{api.0.fat_total_g}}</span></li>
-                                <li>Fiber Content: <span class="float-end">{{api.0.fiber_g}}</span></li>
-                                <li>Potassium <span class="float-end">{{api.0.potassium_mg}}</span></li>
-                                <li>Protein: <span class="float-end">112<span></li>
-                                <li>Sodium:<span class="float-end">{{api.0.sodium_mg}}</span></li>
-                                <li>Sugar: <span class="float-end">{{api.0.sugar_g}}</span></li>
+                                <li>Cholesterol: <span class="float-end"> {{chols}} </span></li>
+                                <li>Saturated fat: <span class="float-end">{{fat_sat}}</span></li>
+                                <li>Total Fat: <span class="float-end">{{fat_total}}</span></li>
+                                <li>Fiber Content: <span class="float-end">{{fibre}}</span></li>
+                                <li>Potassium <span class="float-end">{{potasium}}</span></li>
+                                <li>Protein: <span class="float-end">{{proteins}}<span></li>
+                                <li>Sodium:<span class="float-end">{{sodium}}</span></li>
+                                <li>Sugar: <span class="float-end">{{sugar}}</span></li>
                             </ul>
                         </div>
                         <div class="col-md-6 mb-5">
@@ -129,18 +135,19 @@
                 new Chart(ctx, {
                   type: 'bar',
                   data: {
-                    labels: ['Carbohydrates', 'Cholesterol', 'Saturated fat', 'Total Fat', 'Fiber Content:', 'Potassium', 'Sodium', 'Sugar'],
+                    labels: ['Carbohydrates', 'Cholesterol', 'Saturated fat', 'Total Fat', 'Fiber Content:', 'Potassium', 'Sodium', 'Sugar', 'Protein'],
                     datasets: [{
                       label: 'Nutritional value of  {{api.0.name | capfirst}}',
                       data: [
-                      {{api.0.carbohydrates_total_g}},
-                         {{api.0.cholesterol_mg}},
-                         {{api.0.fat_saturated_g}},
-                         {{api.0.fat_total_g}},
-                         {{api.0.fiber_g}},
-                         {{api.0.potassium_mg}},
-                         {{api.0.sodium_mg}},
-                         {{api.0.sugar_g}},
+                      {{carbs}},
+                         {{chols}},
+                         {{fat_saturated}},
+                         {{fat_total}},
+                         {{fibre}},
+                         {{potasium}},
+                         {{sodium}},
+                         {{sugar}},
+                         {{proteins}},
                     ],
                       backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

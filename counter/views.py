@@ -121,19 +121,37 @@ def home(request):
             "query": query,
             "timezone": "US/Eastern"
         }
-
+        context = {}
         try:
             response = requests.post(c_url, json=data, headers=headers2)
             if response.status_code == 200:
                 nutritionix_data = response.json()
+                print(nutritionix_data)
                 if "foods" in nutritionix_data and nutritionix_data["foods"]:
-                    total = nutritionix_data["foods"][0].get("nf_calories", 0)
-            else:
-                print(f"Nutritionix Error: {response.status_code}")
-        except Exception as e:
-            print(f"Nutritionix Error: {str(e)}")
+                    food = nutritionix_data["foods"][0]
+                    context = {
+                        'carbs': food.get("nf_total_carbohydrate", 0),
+                        'total': food.get("nf_calories", 0),
+                        'chols': food.get("nf_cholesterol", 0),
+                        'fat_sat': food.get("nf_saturated_fat", 0),
+                        'fat_total': food.get("nf_total_fat", 0),
+                        'fibre': food.get("nf_dietary_fiber", 0),
+                        'potasium': food.get("nf_potassium", 0),
+                        'sodium': food.get("nf_sodium", 0),
+                        'sugar': food.get("nf_sugars", 0),
+                        'proteins': food.get("nf_protein", 0),
+                        'api': api
+                    }
+                else:
+                    context['error'] = "⚠️ No food data found. Please try another item."
 
-        return render(request, 'home.html', {'api': api, 'total': total})
+            else:
+                    context['error'] = f"⚠️ Nutritionix API error: {response.status_code}"
+
+        except Exception as e:
+            context['error'] = f"⚠️ Something went wrong: {str(e)}"
+
+        return render(request, 'home.html', context )
 
     else:
         return render(request, 'home.html', {'query': 'Enter a valid query'})
