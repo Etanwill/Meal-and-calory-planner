@@ -6,6 +6,8 @@
     <title>Créer un compte - Meal & Calory Planner</title>
     <style>
         /* Reset basique */
+        {% load static %}
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,7 +17,7 @@
         
         body, html {
             height: 100%;
-            background: linear-gradient(135deg, #72c6ef, #004e92);
+            background: url("{% static 'images/Be.jpg' %}") no-repeat center center fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -124,9 +126,9 @@
 <body>
     <div class="register-container">
         <!-- Logo / image au choix -->
-        <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Logo" class="logo" />
+        <img src="{% static 'images/website.png' %}" alt="Logo" class="logo" />
         
-        <h2>Créer un compte</h2>
+        <h2>Create an account</h2>
         
         <form method="POST" action="{% url 'signup' %}">
             {% csrf_token %}
@@ -148,16 +150,16 @@
                 </div>
             {% endfor %}
             
-            <button type="submit" class="register-btn">S'inscrire</button>
+            <button type="submit" class="register-btn">Register</button>
         </form>
         
         <p class="login-link">
-            J'ai déjà un compte ? 
-            <a href="{% url 'login' %}">Se connecter</a>
+            I have an account ? 
+            <a href="{% url 'login' %}">connect</a>
         </p>
         
         <!-- Image décorative en bas à droite -->
-        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Decorative" class="decorative-img" />
+        <img src="{% static 'images/logo.png' %}" alt="Decorative" class="decorative-img" />
     </div>
 </body>
 </html>

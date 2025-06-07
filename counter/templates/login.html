@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login - Meal & Calory Planner</title>
     <style>
+        {% load static %}
+
         /* Reset basique */
         * {
             box-sizing: border-box;
@@ -15,7 +17,8 @@
         
         body, html {
             height: 100%;
-            background: linear-gradient(135deg, #72c6ef, #004e92);
+            background: url("{% static 'images/R.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -124,19 +127,19 @@
 <body>
     <div class="login-container">
         <!-- Logo / image au choix -->
-        <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Logo" class="logo" />
+        <img src="{% static 'images/end-user.png' %}" alt="Logo" class="logo" />
         
-        <h2>Connexion</h2>
+        <h2>Connection</h2>-
         
         <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
 
             {{ form.non_field_errors }}
 
-            <label for="id_username" style="display:none;">Nom d'utilisateur</label>
+            <label for="id_username" style="display:none;">Name User</label>
             {{ form.username }}
 
-            <label for="id_password" style="display:none;">Mot de passe</label>
+            <label for="id_password" style="display:none;">Password</label>
             {{ form.password }}
 
             <button type="submit" class="login-btn">Get Connect</button>
@@ -157,11 +160,11 @@
         
         <p class="create-account">
             create-account ? 
-            <a href="{% url 'signup' %}">Créer un compte</a>
+            <a href="{% url 'signup' %}">Create an account</a>
         </p>
         
         <!-- Image décorative en bas à droite -->
-        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Decorative" class="decorative-img" />
+        <img src="{% static 'images/logo.png' %}" alt="Decorative" class="decorative-img" />
     </div>
 </body>
 </html>
