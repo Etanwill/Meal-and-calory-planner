@@ -2,20 +2,19 @@ from django.shortcuts import render, redirect
 from .models import UserRecommendation, FoodQueryForm
 import requests
 from .recommendation_profiles import PERSONALIZED_RECOMMENDATIONS
-import subprocess
-from django.http import HttpResponse
-from django.views import View
-from .langchain_backend import get_answer
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from .forms import LoginForm, RegisterForm
+from tika import parser
 import json
 import markdown
 from google import genai
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
 
 
-from tika import parser
+PDF_PATH = r"C:\\Users\\Arthur\\Desktop\\Meal-and-calory-planner2\\real_food.pdf"
 
-PDF_PATH = r"C:\Users\12ELEVEN\Desktop\etan-website\Food-Generative-ai\Data\real_food.pdf"
 def read_file(path):
     text = parser.from_file(path)
     return text["content"]
@@ -23,7 +22,53 @@ def read_file(path):
 DATA = read_file(PDF_PATH)
 print("data is", DATA[:200])
 
-# Fonction de génération de recommandations personnalisées
+
+
+
+
+
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            auth_login(request, user)  # Connexion de l'utilisateur
+            print("Connexion réussie pour :", user.username)  # Debug
+            return redirect('home')
+        else:
+            print("Erreur login :", form.errors)  # Debug erreurs
+            return render(request, 'login.html', {'form': form})
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
+
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+        else:
+            return render(request, 'signup.html', {'form': form})
+    else:
+        form = RegisterForm()
+    return render(request, 'signup.html', {'form': form})
+
+
+def logout_view(request):
+    auth_logout(request)
+    return redirect('login')
+
+
+@login_required(login_url='login')
+def home(request):
+    print("User authentifié ? :", request.user.is_authenticated)
+    print("User connecté :", request.user.username)
+    return render(request, 'home.html')
+
 
 
 def generate_manual_recommendation(data):
@@ -49,17 +94,14 @@ def generate_manual_recommendation(data):
                     score += 1
                     matched = True
 
-        # Always track the best match by score
         if score > best_score:
             best_score = score
             best_match = profile
 
-        # Track fallback: any match at all, but lower priority than best_match
         if matched and score > fallback_score:
             fallback_score = score
             fallback_match = profile
 
-    # Priority: best_match > fallback_match > nothing
     final_match = best_match if best_score > 0 else fallback_match
 
     if final_match:
@@ -71,7 +113,6 @@ def generate_manual_recommendation(data):
             "additional_tips": final_match["additional_tips"]
         }
 
-    # Default suggestion if no match found
     return {
         "diet_types": ["Balanced diet", "Whole food based", "Low sugar", "Low sodium", "Anti-inflammatory"],
         "workouts": ["Walking", "Yoga", "Light strength", "Pilates", "Stretching"],
@@ -81,18 +122,10 @@ def generate_manual_recommendation(data):
     }
 
 
-# Vue de la page d'accueil (optionnelle, simple affichage)
-# ygbOdmqiBwBzF66IBtS/uA==4r4AR2DSPk8gEfi2
-
-
-
+@login_required(login_url='login')
 def home(request):
-    import json
-    import requests
-
     if request.method == 'POST':
         query = request.POST.get('query')
-        total = 0
         api = "No data found."
 
         # === API NINJAS: Get full nutrition info ===
@@ -104,7 +137,7 @@ def home(request):
             if api_request.status_code == 200:
                 api_data = api_request.json()
                 if api_data:
-                    api = api_data  # You pass this to the template
+                    api = api_data
             else:
                 api = f"API-Ninjas Error: {api_request.status_code}"
         except Exception as e:
@@ -126,7 +159,6 @@ def home(request):
             response = requests.post(c_url, json=data, headers=headers2)
             if response.status_code == 200:
                 nutritionix_data = response.json()
-                print(nutritionix_data)
                 if "foods" in nutritionix_data and nutritionix_data["foods"]:
                     food = nutritionix_data["foods"][0]
                     context = {
@@ -144,48 +176,49 @@ def home(request):
                     }
                 else:
                     context['error'] = "⚠️ No food data found. Please try another item."
-
             else:
-                    context['error'] = f"⚠️ Nutritionix API error: {response.status_code}"
-
+                context['error'] = f"⚠️ Nutritionix API error: {response.status_code}"
         except Exception as e:
             context['error'] = f"⚠️ Something went wrong: {str(e)}"
 
-        return render(request, 'home.html', context )
-
+        return render(request, 'home.html', context)
     else:
         return render(request, 'home.html', {'query': 'Enter a valid query'})
 
-# Vue de la page de recommandation
+
 def recomendation(request):
     if request.method == 'POST':
         data = {
-            'dietary_preferences': request.POST['dietary_preferences'],
-            'fitness_goal': request.POST['fitness_goal'],
-            'lifestyle_factor': request.POST['lifestyle_factor'],
-            'dietary_restrictions': request.POST['dietary_restrictions'],
-            'health_condition': request.POST['health_condition'],
-            'your_query': request.POST['your_query'],
+            'dietary_preferences': request.POST.get('dietary_preferences', ''),
+            'fitness_goal': request.POST.get('fitness_goal', ''),
+            'lifestyle_factor': request.POST.get('lifestyle_factor', ''),
+            'dietary_restrictions': request.POST.get('dietary_restrictions', ''),
+            'health_condition': request.POST.get('health_condition', ''),
+            'your_query': request.POST.get('your_query', ''),
         }
 
-        # Enregistrer les infos utilisateur dans la base de données
         UserRecommendation.objects.create(**data)
-
-        # Générer les recommandations personnalisées
         recommendations = generate_manual_recommendation(data)
-
         return render(request, 'recomendation.html', {'recommendations': recommendations})
 
     return render(request, 'recomendation.html', {'recommendations': None})
 
-
+def get_answer(prompt):
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt
+        )
+        return response.text
+    except Exception as e:
+        return "Erreur lors de la génération de la réponse : " + str(e)
 
 
 
 def food_chat_view(request):
     answer_ingredients = ""
     answer_directions = ""
-    
+
     if request.method == "POST":
         form = FoodQueryForm(request.POST)
         if form.is_valid():
@@ -208,6 +241,7 @@ def food_chat_view(request):
 GEMINI_API_KEY = "AIzaSyDnBFJklLBH4OYPnvphJ1DAu8V7e38CvQs"
 client = genai.Client(api_key=GEMINI_API_KEY)
 
+
 @csrf_exempt
 def chat_with_ai(request):
     if request.method == 'POST':
@@ -218,8 +252,10 @@ def chat_with_ai(request):
             if not user_message:
                 return JsonResponse({'error': 'Empty message'}, status=400)
 
-            response = client.models.generate_content(model="gemini-2.0-flash",
-    contents=user_message)
+            response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=user_message
+            )
             return JsonResponse({'reply': response.text})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)

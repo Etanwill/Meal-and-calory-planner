@@ -1,0 +1,12 @@
+<a href="{% url 'social:begin' 'google-oauth2' %}">Log in with Google</a>
+<a href="{% url 'social:begin' 'google-oauth2' %}">Sign up with Google</a>
+
+
+
+
+
+je vais te donner 5code,le home,login,signup,views,urls,tu vas me lier sa de facon que quand je lance le serveur de django,le login montre dabord et quand utilisateur remplie les champ et clique sur "Se connecter",sa ouvre le home.Quand utilisateur clique sur "S'inscrire",sa le redirige vers le login pour que ils puisse remettre ses info,et dans le home,tu vas ajouter un bouton "logout" qui redirige vers le login quand tu clique decu
+
+
+ WARNING: The script markdown_py.exe is installed in 'C:\Users\Arthur\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.

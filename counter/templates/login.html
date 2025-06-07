@@ -1,6 +1,167 @@
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
-<a href="{% url 'social:begin' 'google-oauth2' %}">Log in with Google</a>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - Meal & Calory Planner</title>
+    <style>
+        /* Reset basique */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body, html {
+            height: 100%;
+            background: linear-gradient(135deg, #72c6ef, #004e92);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            width: 380px;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+        }
+        
+        .login-container img.logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            margin-bottom: 25px;
+            color: #004e92;
+            font-weight: 700;
+            font-size: 28px;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 12px 0 20px 0;
+            border: 1.8px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #72c6ef;
+            outline: none;
+        }
+        
+        button.login-btn {
+            background: #004e92;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        button.login-btn:hover {
+            background: #00376b;
+        }
+        
+        .create-account {
+            margin-top: 18px;
+            font-size: 15px;
+            color: #004e92;
+        }
+        
+        .create-account a {
+            text-decoration: none;
+            color: #72c6ef;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .create-account a:hover {
+            color: #00376b;
+        }
+        
+        /* Petite image décorative en bas */
+        .decorative-img {
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 120px;
+            opacity: 0.15;
+            user-select: none;
+            pointer-events: none;
+        }
+        
+        /* Responsive */
+        @media(max-width: 420px) {
+            .login-container {
+                width: 90%;
+                padding: 25px 20px;
+            }
+        }
+
+        /* Affichage des erreurs */
+        .errorlist {
+            color: red;
+            list-style: none;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Logo / image au choix -->
+        <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Logo" class="logo" />
+        
+        <h2>Connexion</h2>
+        
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <label for="id_username" style="display:none;">Nom d'utilisateur</label>
+            {{ form.username }}
+
+            <label for="id_password" style="display:none;">Mot de passe</label>
+            {{ form.password }}
+
+            <button type="submit" class="login-btn">Get Connect</button>
+        </form>
+
+        {% if form.errors %}
+            <div style="color:red; margin-top: 10px;">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <p class="create-account">
+            create-account ? 
+            <a href="{% url 'signup' %}">Créer un compte</a>
+        </p>
+        
+        <!-- Image décorative en bas à droite -->
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Decorative" class="decorative-img" />
+    </div>
+</body>
+</html>

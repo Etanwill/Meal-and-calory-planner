@@ -1,6 +1,6 @@
 from django.db import models
 from django import forms
-
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
 class UserRecommendation(models.Model):
     dietary_preferences = models.CharField(max_length=255)
@@ -16,3 +16,31 @@ class UserRecommendation(models.Model):
 
 class FoodQueryForm(forms.Form):
     food_name = forms.CharField(label="Enter a Cameroonian food", max_length=100)
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
+    full_name = models.CharField(max_length=100)
+
+    groups = models.ManyToManyField(
+        Group,
+        related_name='customuser_set',  # nom unique pour éviter conflit
+        blank=True,
+        help_text=(
+            'The groups this user belongs to. A user will get all permissions '
+            'granted to each of their groups.'
+        ),
+        related_query_name='customuser',
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='customuser_set',  # nom unique pour éviter conflit
+        blank=True,
+        help_text='Specific permissions for this user.',
+        related_query_name='customuser',
+    )
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']  # ou ['full_name', 'username'] si tu préfères
+
+    def __str__(self):
+        return self.email

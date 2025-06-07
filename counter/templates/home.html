@@ -186,6 +186,11 @@
 
 <!-- Floating Chat Button -->
 <button id="chatbtn">💬 Chat with AI</button>
+<form action="{% url 'logout' %}" method="post" style="text-align: right;">
+    {% csrf_token %}
+    <button type="submit" style="background:#e74c3c; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Se déconnecter</button>
+</form>
+
 
 <!-- Chat Box -->
 <div id="chatbox" style="display: none;">

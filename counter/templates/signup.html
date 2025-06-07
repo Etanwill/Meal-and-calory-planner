@@ -1,6 +1,163 @@
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Sign Up</button>
-</form>
-<a href="{% url 'social:begin' 'google-oauth2' %}">Sign up with Google</a>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Créer un compte - Meal & Calory Planner</title>
+    <style>
+        /* Reset basique */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body, html {
+            height: 100%;
+            background: linear-gradient(135deg, #72c6ef, #004e92);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .register-container {
+            background: rgba(255, 255, 255, 0.95);
+            width: 400px;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+        }
+        
+        .register-container img.logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            margin-bottom: 25px;
+            color: #004e92;
+            font-weight: 700;
+            font-size: 28px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 12px 0 20px 0;
+            border: 1.8px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #72c6ef;
+            outline: none;
+        }
+        
+        button.register-btn {
+            background: #004e92;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        button.register-btn:hover {
+            background: #00376b;
+        }
+        
+        .login-link {
+            margin-top: 18px;
+            font-size: 15px;
+            color: #004e92;
+        }
+        
+        .login-link a {
+            text-decoration: none;
+            color: #72c6ef;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .login-link a:hover {
+            color: #00376b;
+        }
+        
+        /* Petite image décorative en bas */
+        .decorative-img {
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 120px;
+            opacity: 0.15;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /* Affichage erreurs */
+        .errorlist {
+            color: red;
+            list-style: none;
+            margin-bottom: 10px;
+            padding-left: 0;
+            text-align: left;
+        }
+        
+        /* Responsive */
+        @media(max-width: 420px) {
+            .register-container {
+                width: 90%;
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <!-- Logo / image au choix -->
+        <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Logo" class="logo" />
+        
+        <h2>Créer un compte</h2>
+        
+        <form method="POST" action="{% url 'signup' %}">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <!-- Affiche chaque champ avec label, champ et erreurs -->
+            {% for field in form %}
+                <div>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <ul class="errorlist">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="register-btn">S'inscrire</button>
+        </form>
+        
+        <p class="login-link">
+            J'ai déjà un compte ? 
+            <a href="{% url 'login' %}">Se connecter</a>
+        </p>
+        
+        <!-- Image décorative en bas à droite -->
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Decorative" class="decorative-img" />
+    </div>
+</body>
+</html>
