@@ -13,7 +13,7 @@ import markdown
 from google import genai
 
 
-PDF_PATH = r"C:\\Users\\Arthur\\Desktop\\Meal-and-calory-planner\\real_food.pdf"
+PDF_PATH = r"static/images/real_food.pdf"
 
 def read_file(path):
     text = parser.from_file(path)
