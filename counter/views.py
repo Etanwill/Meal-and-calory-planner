@@ -11,19 +11,27 @@ from tika import parser
 import json
 import markdown
 from google import genai
+from pypdf import PdfReader
 
 
 PDF_PATH = r"static/images/real_food.pdf"
 
-def read_file(path):
-    text = parser.from_file(path)
-    return text["content"]
+# def read_file(path):
+#     text = parser.from_file(path)
+#     return text["content"]
+
+# DATA = read_file(PDF_PATH)
+# print("data is", DATA[:200])
+
+
+def read_pdf_pypdf(path):
+    reader = PdfReader(path)
+    text = ""
+    for page in reader.pages:
+        text += page.extract_text() or ""
+    return text
 
 DATA = read_file(PDF_PATH)
-print("data is", DATA[:200])
-
-
-
 
 
 
