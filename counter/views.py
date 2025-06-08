@@ -31,7 +31,7 @@ def read_pdf_pypdf(path):
         text += page.extract_text() or ""
     return text
 
-DATA = read_file(PDF_PATH)
+DATA = read_pdf_pypdf(PDF_PATH)
 
 
 
