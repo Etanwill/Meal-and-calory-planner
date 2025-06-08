@@ -172,3 +172,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',  # pour voir l’interface HTML
     ]
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://meal-and-calory-planner-production.up.railway.app'
+]
+
