@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-^zr(m5n=_8j_(iij1pwgcdc@tw2$h^)3k%uz7z!v42a#2@l#56
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+     'localhost',
+    '127.0.0.1',
+    'meal-and-calory-planner-production.up.railway.app'
+]
 
 
 # Application definition
