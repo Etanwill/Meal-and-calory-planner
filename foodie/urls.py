@@ -20,6 +20,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),  # admin toujours ici
     path('', include('counter.urls')),
-    path('accounts/', include('allauth.urls'))  # ou 'foodie.urls' selon ton app principale
+    path('accounts/', include('allauth.urls')), 
+    path('', include('counter.urls')), # ou 'foodie.urls' selon ton app principale
 ]
+
 

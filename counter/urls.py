@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.urls import path, include
 
 
 urlpatterns = [
@@ -11,5 +12,8 @@ urlpatterns = [
     path('recomendation/', views.recomendation, name='recomendation'),
     path('cameroon-recipe/', views.food_chat_view, name='cameroon_recipe'),
     path('chatbot/chat/', views.chat_with_ai, name='chat_with_ai'),
+    path('api/', include('api.urls')),
+
+    
    
 ]
