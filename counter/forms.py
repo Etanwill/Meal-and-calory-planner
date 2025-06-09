@@ -5,10 +5,19 @@ User = get_user_model()
 
 
 class LoginForm(AuthenticationForm):
-    # On peut ajouter un label en français ou customiser si besoin
-    username = forms.CharField(label="Nom d'utilisateur", max_length=254)
-    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput)
-
+    username = forms.CharField(
+        label="Nom d'utilisateur",
+        max_length=254,
+        widget=forms.TextInput(attrs={
+            'placeholder': "Entrez votre adresse email"
+        })
+    )
+    password = forms.CharField(
+        label="Mot de passe",
+        widget=forms.PasswordInput(attrs={
+            'placeholder': "Entrez votre mot de passe"
+        })
+    )
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
