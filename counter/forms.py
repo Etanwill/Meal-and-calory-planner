@@ -9,13 +9,13 @@ class LoginForm(AuthenticationForm):
         label="Nom d'utilisateur",
         max_length=254,
         widget=forms.TextInput(attrs={
-            'placeholder': "Entrez votre adresse email"
+            'placeholder': "Enter your email"
         })
     )
     password = forms.CharField(
         label="Mot de passe",
         widget=forms.PasswordInput(attrs={
-            'placeholder': "Entrez votre mot de passe"
+            'placeholder': "Enter your password"
         })
     )
 class RegisterForm(UserCreationForm):
