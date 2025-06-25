@@ -22,6 +22,7 @@ urlpatterns = [
     path('', include('counter.urls')),
     path('accounts/', include('allauth.urls')), 
     path('', include('counter.urls')), # ou 'foodie.urls' selon ton app principale
+    
 ]
 
 

@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .main {
+            background-color: lightblue;
+            height: 35vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .main h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .main p {
+            font-size: 22px;
+            max-width: 900px;
+        }
+        .cont {
+            margin-top: 60px;
+            text-align: center;
+        }
+        .cont p {
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .container {
+            margin: 40px auto;
+            padding: 0 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        .card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 280px;
+            text-align: center;
+        }
+        .card img {
+            max-height: 280px;
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .card h4, .card h5, .card h6 {
+            margin: 8px 0;
+        }
+        .links {
+            margin: 40px 0;
+            text-align: center;
+        }
+        .links a {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #4A90E2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .links a:hover {
+            background-color: #357ABD;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>About Us</h1>
+        <p>
+            We are a team of six passionate students training at ICT-UNIVERSITY.
+This project allowed us to experience real teamwork in the world of software development. 
+For us, this wasn’t just a school project — it was a chance to grow, to support one another, and to build something meaningful together.
+
+We are proud of what we accomplished as a team.
+        </p>
+    </div>
+
+    <div class="cont">
+        <p>Our Team</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <img src="{% static 'images/bobi.jpg' %}" alt="Image 1">
+            <h4>Soufouo Tembeg Christian</h4>
+            <h5>Student at ICT-UNIVERSITY</h5>
+            <h6>soufouo.tembeg@ictu.edu.cm</h6>
+        </div>
+        <div class="card">
+            <img src="{% static 'images/wil.jpg' %}" alt="Image 2">
+            <h4>Etan John Wil</h4>
+            <h5>Student at ICT-UNIVERSITY</h5>
+            <h6>etan.john@ictuniversity.edu.cm</h6>
+        </div>
+        <div class="card">
+            <img src="{% static 'images/hj.jpg' %}" alt="Image 3">
+            <h4>Nguend Arthur Johann</h4>
+            <h5>Student at ICT-UNIVERSITY</h5>
+            <h6>Nguend.arthur@ictuniversity.edu.cm</h6>
+        </div>
+        <div class="card">
+            <img src="{% static 'images/kate.jpg' %}" alt="Image 4">
+            <h4>Noah Minkoulou Ketsia</h4>
+            <h5>Student at ICT-UNIVERSITY</h5>
+            <h6>NoahMinkoulou@ictuniversity.edu.cm</h6>
+        </div>
+        <div class="card">
+            <img src="{% static 'images/rosine.jpg' %}" alt="Image 5">
+            <h4>Saah Nguedem Rosine</h4>
+            <h5>Student at ICT-UNIVERSITY</h5>
+            <h6>Saahnguedem.rosine@ictuniversity.edu.cm</h6>
+        </div>
+        <div class="card">
+            <img src="{% static 'images/image6.jpg' %}" alt="Image 6">
+            <h4>Nyongo Elena Meyra Beghang</h4>
+            <h5>Student at ICT-UNIVERSITY</h5>
+            <h6>Nyongo.elena@ictu.edu.cm</h6>
+        </div>
+    </div>
+
+    <div class="links">
+        <a href="{% url 'home' %}">🏠 Return to Home</a>
+        <a href="{% url 'recomendation' %}">📋 See recommandations</a>
+    </div>
+</body>
+</html>

@@ -9,7 +9,7 @@ class LoginForm(AuthenticationForm):
         label="Nom d'utilisateur",
         max_length=254,
         widget=forms.TextInput(attrs={
-            'placeholder': "Enter your email"
+            'placeholder': "Enter your name"
         })
     )
     password = forms.CharField(

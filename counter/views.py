@@ -129,6 +129,9 @@ def generate_manual_recommendation(data):
         "additional_tips": ["Drink 2L water/day", "Avoid processed foods", "Include healthy snacks", "Use natural supplements", "Sleep 7-8 hours"]
     }
 
+def about(request):
+    return render(request, 'about.html')
+    
 
 @login_required(login_url='login')
 def home(request):
