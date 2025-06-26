@@ -64,8 +64,22 @@
         .card h4, .card h5, .card h6 {
             margin: 8px 0;
         }
+        .group-photo-section {
+            margin: 60px auto;
+            text-align: center;
+        }
+        .group-photo-section h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .group-photo-section img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
         .links {
-            margin: 40px 0;
+            margin: 50px 0;
             text-align: center;
         }
         .links a {
@@ -87,10 +101,10 @@
         <h1>About Us</h1>
         <p>
             We are a team of six passionate students training at ICT-UNIVERSITY.
-This project allowed us to experience real teamwork in the world of software development. 
-For us, this wasn’t just a school project — it was a chance to grow, to support one another, and to build something meaningful together.
+            This project allowed us to experience real teamwork in the world of software development. 
+            For us, this wasn’t just a school project — it was a chance to grow, to support one another, and to build something meaningful together.
 
-We are proud of what we accomplished as a team.
+            We are proud of what we accomplished as a team.
         </p>
     </div>
 
@@ -102,44 +116,50 @@ We are proud of what we accomplished as a team.
         <div class="card">
             <img src="{% static 'images/bobi.jpg' %}" alt="Image 1">
             <h4>Soufouo Tembeg Christian</h4>
-            <h5>Student at ICT-UNIVERSITY</h5>
+            <h5>Python-Developer</h5>
             <h6>soufouo.tembeg@ictu.edu.cm</h6>
         </div>
         <div class="card">
             <img src="{% static 'images/wil.jpg' %}" alt="Image 2">
             <h4>Etan John Wil</h4>
-            <h5>Student at ICT-UNIVERSITY</h5>
+            <h5>Scrum-Master</h5>
             <h6>etan.john@ictuniversity.edu.cm</h6>
         </div>
         <div class="card">
-            <img src="{% static 'images/hj.jpg' %}" alt="Image 3">
+            <img src="{% static 'images/Arthur.jpg' %}" alt="Image 3">
             <h4>Nguend Arthur Johann</h4>
-            <h5>Student at ICT-UNIVERSITY</h5>
+            <h5>Product-Owner</h5>
             <h6>Nguend.arthur@ictuniversity.edu.cm</h6>
         </div>
         <div class="card">
-            <img src="{% static 'images/kate.jpg' %}" alt="Image 4">
+            <img src="{% static 'images/ketsia.jpg' %}" alt="Image 4">
             <h4>Noah Minkoulou Ketsia</h4>
-            <h5>Student at ICT-UNIVERSITY</h5>
+            <h5>Web-designer</h5>
             <h6>NoahMinkoulou@ictuniversity.edu.cm</h6>
         </div>
         <div class="card">
             <img src="{% static 'images/rosine.jpg' %}" alt="Image 5">
             <h4>Saah Nguedem Rosine</h4>
-            <h5>Student at ICT-UNIVERSITY</h5>
+            <h5>Web-designer</h5>
             <h6>Saahnguedem.rosine@ictuniversity.edu.cm</h6>
         </div>
         <div class="card">
             <img src="{% static 'images/image6.jpg' %}" alt="Image 6">
             <h4>Nyongo Elena Meyra Beghang</h4>
-            <h5>Student at ICT-UNIVERSITY</h5>
+            <h5>Web-Designer</h5>
             <h6>Nyongo.elena@ictu.edu.cm</h6>
         </div>
     </div>
 
+    <!-- Groupe complet -->
+    <div class="group-photo-section">
+        <h3>📸 Our Team in Action</h3>
+        <img src="{% static 'images/team_group.jpg' %}" alt="Full Team Photo">
+    </div>
+
     <div class="links">
         <a href="{% url 'home' %}">🏠 Return to Home</a>
-        <a href="{% url 'recomendation' %}">📋 See recommandations</a>
+        <a href="{% url 'recomendation' %}">📋 See Recommendations</a>
     </div>
 </body>
 </html>
