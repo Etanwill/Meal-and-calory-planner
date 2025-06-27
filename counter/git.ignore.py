@@ -1,4 +1,4 @@
-"""from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 from .models import UserRecommendation, FoodQueryForm
 import requests
 from .recommendation_profiles import PERSONALIZED_RECOMMENDATIONS
@@ -271,4 +271,4 @@ def chat_with_ai(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
-    return JsonResponse({'error': 'Invalid request'}, status=405)"""
+    return JsonResponse({'error': 'Invalid request'}, status=405)"
