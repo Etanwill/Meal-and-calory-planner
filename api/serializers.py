@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from counter.models import CustomUser  # ou get_user_model()
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):#create a serializer
     class Meta:
-        model = CustomUser
-        fields = ['id', 'username', 'email']  # ajoute d'autres champs si besoin
+        model = CustomUser   #indicate which model to serialize
+        fields = ['id', 'username', 'email',]  # fields to get via the api

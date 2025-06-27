@@ -9,6 +9,5 @@ from counter.models import CustomUser
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
-
+    queryset = CustomUser.objects.all()# api views uses all users in database
+    serializer_class = UserSerializer # 
