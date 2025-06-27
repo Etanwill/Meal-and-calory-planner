@@ -4,7 +4,25 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+
 class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label="Name",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter your name',
+            'class': 'form-control'
+        })
+    )
+    password = forms.CharField(
+        label="Password",
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Enter your password',
+            'class': 'form-control'
+        })
+    )
+
+
+"""class LoginForm(AuthenticationForm):
     username = forms.CharField(
         label="Nom d'utilisateur",
         max_length=254,
@@ -17,7 +35,7 @@ class LoginForm(AuthenticationForm):
         widget=forms.PasswordInput(attrs={
             'placeholder': "Enter your password"
         })
-    )
+    )"""
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
 

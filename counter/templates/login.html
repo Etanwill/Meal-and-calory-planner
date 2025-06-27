@@ -122,6 +122,8 @@
             list-style: none;
             margin-bottom: 10px;
         }
+
+        
     </style>
 </head>
 <body>
@@ -131,19 +133,35 @@
         
         <h2>Connection</h2>-
         
-        <form method="POST" action="{% url 'login' %}">
+        <form method="POST">
             {% csrf_token %}
+    
+            <div class="form-group">
+                <label for="id_username" style="font-weight: bold;">Name</label>
+                {{ form.username }}
+            </div>
 
-            {{ form.non_field_errors }}
+            <div class="form-group">
+                 <label for="id_password" style="font-weight: bold;">Password</label>
+                 {{ form.password }}
+            </div>
 
-            <label for="id_username" style="display:none;">Name User</label>
-            {{ form.username }}
+            <button type="submit" style="
+                width: 100%;
+                padding: 10px;
+                background-color: #004D99;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-weight: bold;
+                font-size: 16px;
+                cursor: pointer;
+                                    ">
+                                    Get Connect
+            </button>
 
-            <label for="id_password" style="display:none;">Password</label>
-            {{ form.password }}
-
-            <button type="submit" class="login-btn">Get Connect</button>
         </form>
+
 
         {% if form.errors %}
             <div style="color:red; margin-top: 10px;">
